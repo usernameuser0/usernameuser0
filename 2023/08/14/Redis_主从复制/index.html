@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <title>Redis_主从复制 | 明天吃烧烤的烧烤摊</title>
+        <meta name="author" content="Song" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="个人博客" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="icon" href="/images/favicon.png" />
+        <script src="https://cdn.staticfile.org/vue/3.3.4/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css" />
+<link rel="stylesheet" href="/css/fonts.min.css" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.org/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.org/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.org/highlight.js/11.8.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+    <meta name="generator" content="Hexo 6.3.0"></head>
+    <body>
+        <div id="layout">
+            <transition name="fade">
+                <div id="loading" v-show="loading">
+                    <div id="loading-circle">
+                        <h2>LOADING</h2>
+                        <p>加载过慢请开启缓存 浏览器默认开启</p>
+                        <img src="/images/loading.gif" />
+                    </div>
+                </div>
+            </transition>
+            <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>明天吃烧烤的烧烤摊</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;主页</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;档案</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;类别</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;提示</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;明天吃烧烤的烧烤摊</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">主页</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">档案</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">类别</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">提示</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+            <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+                <div class="article">
+    <div>
+        <h1>Redis_主从复制</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/8/14
+        </span>
+        
+        <span class="category">
+            <a href="/categories/Redis/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                Redis
+            </a>
+        </span>
+        
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="Redis-主从复制"><a href="#Redis-主从复制" class="headerlink" title="Redis_主从复制"></a>Redis_主从复制</h1><p>主机数据更新后根据配置和策略，自动同步到备机的master&#x2F;slaver机制，Master以<br>写为主，Slave以读为主</p>
+<p><img src="/img%5C%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6.png" alt="&#39;&#39;"></p>
+<p><img src="/2023/08/14/Redis_%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/img/image-20220731212941113.png" alt="&#39;image-20220731212941113&#39;"></p>
+<p><code>info replication</code><strong>查看主从信息</strong></p>
+<p><img src="/2023/08/14/Redis_%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/img/image-20220731214049173.png" alt="&#39;image-20220731214049173&#39;"></p>
+<p><img src="/2023/08/14/Redis_%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/img/image-20220731214130804.png" alt="&#39;image-20220731214130804&#39;"></p>
+<p><img src="/img%5Cimage-20220731214525397.png" alt="&#39;薪炎之律者啊啊啊啊啊！&#39;"></p>
+<h2 id="反客为主"><a href="#反客为主" class="headerlink" title="反客为主"></a>反客为主</h2><p>用slaveof no one将从机变为主机。</p>
+<h2 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h2><p><strong>反客为主的自动版，能够后台监控主机是否故障，如果故障了根据投票数自动将从库</strong><br><strong>转换为主库</strong></p>
+<p><em><strong>自定义的myredis目录下新建sentinel..conf文件，名字</strong></em><br><em><strong>绝不能错。</strong></em></p>
+<p><img src="/2023/08/14/Redis_%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/img/image-20220731220036367.png" alt="&#39;image-20220731220036367&#39;"></p>
+<h2 id="启动哨兵"><a href="#启动哨兵" class="headerlink" title="启动哨兵"></a>启动哨兵</h2><p><code>redis-sentinel /myredis/sentinel.conf</code></p>
+<p><img src="/2023/08/14/Redis_%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/img/image-20220731220443080.png" alt="&#39;image-20220731220443080&#39;"></p>
+<p><strong>优先级</strong>新版改为<code>replica-priority</code></p>
+<p><img src="/2023/08/14/Redis_%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/img/image-20220731221126056.png" alt="&#39;image-20220731221126056&#39;"></p>
+<p><em><strong>主从在java中创建是指定配置的服务器名称</strong></em></p>
+<h3 id="复制延时"><a href="#复制延时" class="headerlink" title="复制延时"></a>复制延时</h3><p>由于所有的写操作都是先在Master上操作，然后同步更新到Slave上，所以从Master<br>同步到Slave机器有一定的延迟，当系统很繁忙的时候，延迟问题会更加严重，Slave<br>机器数量的增加也会使这个问题更加严重。</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+                <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 明天吃烧烤的烧烤摊
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Song
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+            </div>
+            
+            <transition name="fade">
+                <div id="preview" ref="preview" v-show="previewShow">
+                    <img id="preview-content" ref="previewContent" />
+                </div>
+            </transition>
+            
+        </div>
+        <script src="/js/main.js"></script>
+        
+        
+
+
+
+
+        
+    </body>
+</html>

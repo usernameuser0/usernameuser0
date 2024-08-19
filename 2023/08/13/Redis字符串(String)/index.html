@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <title>Redis字符串(String) | 明天吃烧烤的烧烤摊</title>
+        <meta name="author" content="Song" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="个人博客" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="icon" href="/images/favicon.png" />
+        <script src="https://cdn.staticfile.org/vue/3.3.4/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css" />
+<link rel="stylesheet" href="/css/fonts.min.css" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.org/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.org/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.org/highlight.js/11.8.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+    <meta name="generator" content="Hexo 6.3.0"></head>
+    <body>
+        <div id="layout">
+            <transition name="fade">
+                <div id="loading" v-show="loading">
+                    <div id="loading-circle">
+                        <h2>LOADING</h2>
+                        <p>加载过慢请开启缓存 浏览器默认开启</p>
+                        <img src="/images/loading.gif" />
+                    </div>
+                </div>
+            </transition>
+            <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>明天吃烧烤的烧烤摊</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;主页</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;档案</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;类别</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;提示</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;明天吃烧烤的烧烤摊</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">主页</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">档案</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">类别</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">提示</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+            <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+                <div class="article">
+    <div>
+        <h1>Redis字符串(String)</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/8/13
+        </span>
+        
+        <span class="category">
+            <a href="/categories/Redis/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                Redis
+            </a>
+        </span>
+        
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="1-1-Redis字符串-String"><a href="#1-1-Redis字符串-String" class="headerlink" title="1.1 Redis字符串(String)"></a>1.1 Redis字符串(String)</h1><ul>
+<li>String是Redis最基本的类型，你可以理解成与Memcached一模一样的类型，一个key对应个value。</li>
+<li>String类型是二进制安全的。意味着Redis的string可以包含任何数据。比如jpg图片或者序列化的对象。</li>
+<li>String类型是Redis最基本的数据类型，一个Redis中字符串value最多可以是512M</li>
+</ul>
+<h3 id="1-1-1-常用命令"><a href="#1-1-1-常用命令" class="headerlink" title="1.1.1 常用命令"></a>1.1.1 常用命令</h3><h4 id="set添加键值对"><a href="#set添加键值对" class="headerlink" title="set添加键值对"></a><code>set</code><key><value>添加键值对</h4><p><img src="/2023/08/13/Redis%E5%AD%97%E7%AC%A6%E4%B8%B2(String)/img/set%E5%9B%BE.png" alt="&#39;set图&#39;"></p>
+<ul>
+<li>NX:当数据库中key不存在时，可以将key-value添加数据库</li>
+<li>XX:当数据库中key存在时，可以将key-value添加数据库，与NX参数互斥</li>
+<li>EX:key的超时秒数</li>
+<li>PX:key的超时毫秒数，与EX互斥</li>
+</ul>
+<h4 id="get查询对应键值，"><a href="#get查询对应键值，" class="headerlink" title="get查询对应键值，"></a><code>get</code><key>查询对应键值，</h4><h4 id="append将给定的追加到原值的末尾"><a href="#append将给定的追加到原值的末尾" class="headerlink" title="append将给定的追加到原值的末尾"></a><code>append</code><key><value>将给定的<value>追加到原值的末尾</h4><h4 id="strlen获得值的长度"><a href="#strlen获得值的长度" class="headerlink" title="strlen获得值的长度"></a><code>strlen</code><key>获得值的长度</h4><h4 id="setnxvalue-只有在key不存在时设置key的值"><a href="#setnxvalue-只有在key不存在时设置key的值" class="headerlink" title="setnxvalue:只有在key不存在时设置key的值"></a><code>setnx</code><key><a href="value:">value:</a>只有在key不存在时设置key的值</h4><h4 id="incr-将key中储存的数字值增1只能对数字值操作，如果为空，新增值为1"><a href="#incr-将key中储存的数字值增1只能对数字值操作，如果为空，新增值为1" class="headerlink" title="incr 将key中储存的数字值增1只能对数字值操作，如果为空，新增值为1"></a><code>incr</code> <key>将key中储存的数字值增1只能对数字值操作，如果为空，新增值为1</h4><h4 id="decr-将key中储存的数字值减1只能对数字值操作，如果为空，新增值为-1"><a href="#decr-将key中储存的数字值减1只能对数字值操作，如果为空，新增值为-1" class="headerlink" title="decr 将key中储存的数字值减1只能对数字值操作，如果为空，新增值为-1"></a><code>decr</code> <key>将key中储存的数字值减1只能对数字值操作，如果为空，新增值为-1</h4><h4 id="incrby-decrby-将key中储存的数字值增减。自定义步长。"><a href="#incrby-decrby-将key中储存的数字值增减。自定义步长。" class="headerlink" title="incrby/decrby &lt;key&gt;&lt;步长&gt;将key中储存的数字值增减。自定义步长。"></a><code>incrby/decrby</code> <code>&lt;key&gt;&lt;步长&gt;</code>将key中储存的数字值增减。自定义步长。</h4><h3 id="1-1-2原子性，有一个失败则都失败"><a href="#1-1-2原子性，有一个失败则都失败" class="headerlink" title="1.1.2原子性，有一个失败则都失败"></a>1.1.2原子性，有一个失败则都失败</h3><h4 id="mset-…-同时设置一个或多个key-value对"><a href="#mset-…-同时设置一个或多个key-value对" class="headerlink" title="mset ….同时设置一个或多个key-value对"></a><code>mset</code> <key1><value1><key2><value2>….同时设置一个或多个key-value对</h4><h4 id="mget-……同时获取一个或多个value"><a href="#mget-……同时获取一个或多个value" class="headerlink" title="mget ……同时获取一个或多个value"></a><code>mget</code> <key1><key2><key3>……同时获取一个或多个value</h4><h4 id="msetnx-…-同时设置一个或多个key-vaue对，当且仅当所有给定key都不存在"><a href="#msetnx-…-同时设置一个或多个key-vaue对，当且仅当所有给定key都不存在" class="headerlink" title="msetnx …..同时设置一个或多个key-vaue对，当且仅当所有给定key都不存在."></a><code>msetnx</code> <key1><value1><key2><value2>…..同时设置一个或多个key-vaue对，当且仅当所有给定key都不存在.</h4><h4 id="getrange获得值的范围，类似java中的substring-前包，后包"><a href="#getrange获得值的范围，类似java中的substring-前包，后包" class="headerlink" title="getrange&lt;起始位置&gt;&lt;结束位置&gt;获得值的范围，类似java中的substring,前包，后包"></a><code>getrange</code><key>&lt;起始位置&gt;&lt;结束位置&gt;获得值的范围，类似<code>java</code>中的<code>substring</code>,前包，后包</h4><h4 id="setrange用value-覆写所储存的字符串值，从开始（索引从0开始）"><a href="#setrange用value-覆写所储存的字符串值，从开始（索引从0开始）" class="headerlink" title="setrange&lt;起始位置&gt;用value:覆写所储存的字符串值，从&lt;起始位置&gt;开始（索引从0开始）"></a><code>setrange</code><key>&lt;起始位置&gt;<value>用<a href="value:">value:</a>覆写<key>所储存的字符串值，从&lt;起始位置&gt;开始（索引从0开始）</h4><h4 id="setex设置键值的同时，设置过期时间，单位秒"><a href="#setex设置键值的同时，设置过期时间，单位秒" class="headerlink" title="setex&lt;过期时间&gt;设置键值的同时，设置过期时间，单位秒"></a><code>setex</code><key>&lt;过期时间&gt;<value>设置键值的同时，设置过期时间，单位秒</h4><h4 id="getset-以新换旧I设置了新值同时获得旧值"><a href="#getset-以新换旧I设置了新值同时获得旧值" class="headerlink" title="getset 以新换旧I设置了新值同时获得旧值"></a><code>getset</code> <key><value>以新换旧I设置了新值同时获得旧值</h4><h1 id="2-原子性"><a href="#2-原子性" class="headerlink" title="2.原子性"></a>2.原子性</h1><p>(1)在单线程中，能够在单条指令中完成的操作都可以认为是”原子操作”，因为中<br>断只能发生于指令之间。<br>(2)在多线程中，不能被其它进程（线程）打断的操作就叫原子操作。<br>Redis单命令的原子性主要得益于Redis的单线程。</p>
+<h1 id="3-数据结构"><a href="#3-数据结构" class="headerlink" title="3.数据结构"></a>3.数据结构</h1><p><img src="/2023/08/13/Redis%E5%AD%97%E7%AC%A6%E4%B8%B2(String)/img/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png" alt="&#39;数据结构&#39;"></p>
+<p><img src="/2023/08/13/Redis%E5%AD%97%E7%AC%A6%E4%B8%B2(String)/img/%E6%89%A9%E5%AE%B9.png" alt="&#39;扩容&#39;">	</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+                <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 明天吃烧烤的烧烤摊
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Song
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+            </div>
+            
+            <transition name="fade">
+                <div id="preview" ref="preview" v-show="previewShow">
+                    <img id="preview-content" ref="previewContent" />
+                </div>
+            </transition>
+            
+        </div>
+        <script src="/js/main.js"></script>
+        
+        
+
+
+
+
+        
+    </body>
+</html>

@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <title>AOF (Append Only File) | 明天吃烧烤的烧烤摊</title>
+        <meta name="author" content="Song" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="个人博客" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="icon" href="/images/favicon.png" />
+        <script src="https://cdn.staticfile.org/vue/3.3.4/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css" />
+<link rel="stylesheet" href="/css/fonts.min.css" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.org/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.org/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.org/highlight.js/11.8.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+    <meta name="generator" content="Hexo 6.3.0"></head>
+    <body>
+        <div id="layout">
+            <transition name="fade">
+                <div id="loading" v-show="loading">
+                    <div id="loading-circle">
+                        <h2>LOADING</h2>
+                        <p>加载过慢请开启缓存 浏览器默认开启</p>
+                        <img src="/images/loading.gif" />
+                    </div>
+                </div>
+            </transition>
+            <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>明天吃烧烤的烧烤摊</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;主页</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;档案</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;类别</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;提示</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;明天吃烧烤的烧烤摊</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">主页</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">档案</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">类别</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">提示</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+            <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+                <div class="article">
+    <div>
+        <h1>AOF (Append Only File)</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/8/14
+        </span>
+        
+        <span class="category">
+            <a href="/categories/Redis/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                Redis
+            </a>
+        </span>
+        
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="AOF-Append-Only-File"><a href="#AOF-Append-Only-File" class="headerlink" title="AOF (Append Only File)"></a>AOF (Append Only File)</h1><p><strong>以日志的形式来记录每个写操作（增量保存），将Rdis执行过的所有写指令记录下</strong><br><strong>来（读操作不记录），只许追加文件但不可以改写文件，rdis启动之初会读取该文件重</strong><br><strong>新构建数据，换言之，reds重启的话就根据日志文件的内容将写指令从前到后执行一</strong><br><strong>次以完成数据的恢复工作</strong></p>
+<h2 id="A0F默认不开启"><a href="#A0F默认不开启" class="headerlink" title="A0F默认不开启"></a>A0F默认不开启</h2><p><strong>可以在redis.conf中配置文件名称，默认为<code>appendonly.aof</code></strong><br><strong>AOF文件的保存路径，同RDB的路径一致。</strong></p>
+<h4 id="AOF和RDB同时开启，系统默认取AOF的数据（数据不会存在丢失）"><a href="#AOF和RDB同时开启，系统默认取AOF的数据（数据不会存在丢失）" class="headerlink" title="AOF和RDB同时开启，系统默认取AOF的数据（数据不会存在丢失）"></a><em>AOF和RDB同时开启，系统默认取AOF的数据（数据不会存在丢失）</em></h4><h1 id="AOF启动-修复-恢复"><a href="#AOF启动-修复-恢复" class="headerlink" title="AOF启动&#x2F;修复&#x2F;恢复"></a>AOF启动&#x2F;修复&#x2F;恢复</h1><p>AOF的备份机制和性能虽然和RDB不同，但是备份和恢复的操作同RDB一样，都<br>是拷贝备份文件，需要恢复时再拷贝到Rdis工作目录下，启动系统即加载。</p>
+<h2 id="正常恢复"><a href="#正常恢复" class="headerlink" title="正常恢复"></a>正常恢复</h2><p>修改默认的appendonly no,改为yesr<br>将有数据的aof文件复制一份保存到对应目录（查看目录：config get dir)</p>
+<h2 id="异常恢复"><a href="#异常恢复" class="headerlink" title="异常恢复"></a>异常恢复</h2><h2 id="修改默认的appendonly-no-改为yes"><a href="#修改默认的appendonly-no-改为yes" class="headerlink" title="修改默认的appendonly no,改为yes"></a>修改默认的appendonly no,改为yes</h2><p>如遇到AoF文件损坏，通过&#x2F;usr&#x2F;local&#x2F;bin&#x2F;redis-check-aof–fix<br>appendonly.aof进行恢复</p>
+<p>备份被写坏的AOF文件</p>
+<p>恢复：重启redis,然后重新加载</p>
+<h1 id="AOF同步频率设置"><a href="#AOF同步频率设置" class="headerlink" title="AOF同步频率设置"></a>AOF同步频率设置</h1><h3 id="配置文件里"><a href="#配置文件里" class="headerlink" title="配置文件里"></a>配置文件里</h3><p><strong><code>appendfsync always</code></strong><br><strong>始终同步，每次Rdis的写入都会立刻记入日志；性能较差但数据完整性比较好</strong><br><strong><code>appendfsync everysec</code></strong><br><strong>每秒同步，每秒记入日志一次，如果宕机，本秒的数据可能丢失。</strong><br><strong><code>appendfsync no</code></strong><br><strong>redis不主动进行同步，把同步时机交给操作系统。</strong></p>
+<h1 id="Rewrite压缩"><a href="#Rewrite压缩" class="headerlink" title="Rewrite压缩"></a>Rewrite压缩</h1><p>1是什么：<br>AOF采用文件追加方式，文件会越来越大为避免出现此种情况，新增了重写机制，当<br>AOF文件的大小超过所设定的阈值时，Rdis就会启动AOF文件的内容压缩，只保留<br>可以恢复数据的最小指令集.可以使用命令bgrewriteaof</p>
+<p>2重写原理，如何实现重写<br>AOF文件持续增长而过大时，会fok出一条新进程来将文件重写（也是先写临时文件最<br>后再rename),<strong>redis4.0版本后的重写，是指上就是把rdb的快照，以二级制的形式附</strong><br><strong>在新的āof头部，作为已有的历史数据，替换掉原来的流水账操作</strong>。<br>no-appendfsync-on-rewrite :</p>
+<p>如果<code>no-appendfsync-on-rewrite=yes,</code>不写入aof文件只写入缓存，用户请求不会阻<br>塞，但是在这段时间如果宕机会丢失这段时间的缓存数据。（降低数据安全性，提高<br>性能)<br>I<br>如果<code>no-appendfsync-on-rewrite=no</code>,还是会把数据往磁盘里刷，但是遇到重<br>写操作，可能会发生阻塞。（数据安全，但是性能降低）<br>触发机制，何时重写<br>Redis会记录上次重写时的AOF大小，默认配置是当AOF文件大小是上次rewrite后大<br>小的一倍且文件大于64M时触发：</p>
+<p><strong>重写虽然可以节约大量磁盘空间，减少恢复时间。但是每次重写还是有一定的负担的</strong><br><strong>因此设定Redis要满足一定条件才会进行重写。</strong><br><code>auto-aof-rewrite-percentage</code>:设置重写的基准值，文件达到100%时开始重写（文件<br>是原来重写后文件的2倍时触发)“<br><code>auto-aof-rewrite-min-size</code>:设置重写的基准值，最小文件64MB。达到这个值开始重<br>写。</p>
+<p><strong>例如</strong>：文件达到70MB开始重写，降到50MB,下次什么时候开始重写？100MB<br>系统载入时或者上次重写完毕时，Redis会记录此时AOF大小，设为base_size<br>如果Redis的AOF当前大小&gt;&#x3D;base size+base_size*100%(默认)且当前大<br>小&gt;&#x3D;64mb(默认)的情况下，Redis会对AOF进行重写。</p>
+<h2 id="重写过程"><a href="#重写过程" class="headerlink" title="重写过程"></a>重写过程</h2><p>(1)bgrewriteaof触发重写，判断是否当前有bgsave或bgrewriteaof在运行，如果<br>有，则等待该命令结束后再继续执行。<br>(2)主进程fok出子进程执行重写操作，保证主进程不会阻塞。<br>(3)子进程遍历redis内存中数据到临时文件，客户端的写请求同时写入aof buf缓<br>冲区和aof rewrite buf重写缓冲区保证原AOF文件完整以及新AOF文件生成期间的<br>新的数据修改动作不会丢失。<br>(4)1).子进程写完新的AOF文件后，向主进程发信号，父进程更新统计信息。<br>      2).主进程把aof rewrite buf中的数据写入到新的AOF文件。<br>(5)使用新的AOF文件覆盖I旧的AOF文件，完成AOF重写。</p>
+<p>总结</p>
+<h1 id="AOF持久化流程"><a href="#AOF持久化流程" class="headerlink" title="AOF持久化流程"></a>AOF持久化流程</h1><ol>
+<li>客户端的请求写命令会被append追加到AOF缓冲区内；</li>
+<li>AOF缓冲区根据AOF持久化策略[alays,,everysec,,no]将操作sync同步到磁盘的AOF文件中；</li>
+<li>AOF文件大小超过重写策略或手动重写时，会对AOF文件rewrite重写，压缩AOF文件容量；</li>
+<li>Redis服务重启时，会重新load加载AOF文件中的写操作达到数据恢复的目的</li>
+</ol>
+<h1 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h1><ol>
+<li>比起RDB占用更多的磁盘空间。</li>
+<li>恢复备份速度要慢。</li>
+<li>每次读写都同步的话，有一定的性能压力。</li>
+<li>存在个别Bug,造成恢复不能。</li>
+</ol>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+                <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 明天吃烧烤的烧烤摊
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Song
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+            </div>
+            
+            <transition name="fade">
+                <div id="preview" ref="preview" v-show="previewShow">
+                    <img id="preview-content" ref="previewContent" />
+                </div>
+            </transition>
+            
+        </div>
+        <script src="/js/main.js"></script>
+        
+        
+
+
+
+
+        
+    </body>
+</html>

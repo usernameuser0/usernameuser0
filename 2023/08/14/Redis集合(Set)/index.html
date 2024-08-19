@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <title>Redis集合(Set) | 明天吃烧烤的烧烤摊</title>
+        <meta name="author" content="Song" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="个人博客" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="icon" href="/images/favicon.png" />
+        <script src="https://cdn.staticfile.org/vue/3.3.4/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css" />
+<link rel="stylesheet" href="/css/fonts.min.css" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.org/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.org/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.org/highlight.js/11.8.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+    <meta name="generator" content="Hexo 6.3.0"></head>
+    <body>
+        <div id="layout">
+            <transition name="fade">
+                <div id="loading" v-show="loading">
+                    <div id="loading-circle">
+                        <h2>LOADING</h2>
+                        <p>加载过慢请开启缓存 浏览器默认开启</p>
+                        <img src="/images/loading.gif" />
+                    </div>
+                </div>
+            </transition>
+            <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>明天吃烧烤的烧烤摊</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;主页</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;档案</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;类别</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;提示</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;明天吃烧烤的烧烤摊</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">主页</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">档案</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">类别</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">提示</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+            <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+                <div class="article">
+    <div>
+        <h1>Redis集合(Set)</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/8/14
+        </span>
+        
+        <span class="category">
+            <a href="/categories/Redis/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                Redis
+            </a>
+        </span>
+        
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="Redis集合-Set"><a href="#Redis集合-Set" class="headerlink" title="Redis集合(Set)"></a>Redis集合(Set)</h1><p>​		Redis set对外提供的功能与1ist类似是一个列表的功能，特殊之处在于set是可以自动排重的，当你需要存储一个列表数据，又不希望出现重复数据时，st是一个很好的选择，并且set提供了判断某个成员是否在一个set集合内的重要接口，这个也是1ist所不能提供的。<br>Redis的Set是string类型的无序集合。它底层其实是一个value为null的hash表，</p>
+<p>​		所以添加，删除，查找的复杂度都是0(1)一个算法，随着数据的增加，执行时间的长短，如果是O(1),数据增加，查找数据的时间不变</p>
+<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><h4 id="sadd-…"><a href="#sadd-…" class="headerlink" title="sadd ….."></a><code>sadd</code> <key><value1><value2>…..</h4><h4 id="将一个或多个member元素加入到集合key中，已经存在的member元素将被忽略。"><a href="#将一个或多个member元素加入到集合key中，已经存在的member元素将被忽略。" class="headerlink" title="将一个或多个member元素加入到集合key中，已经存在的member元素将被忽略。"></a>将一个或多个member元素加入到集合key中，已经存在的member元素将被忽略。</h4><h4 id="smembers取出该集合的所有值"><a href="#smembers取出该集合的所有值" class="headerlink" title="smembers取出该集合的所有值"></a><code>smembers</code><key>取出该集合的所有值</h4><h4 id="sismembervalue-判断集合是否为含有该值，有1，没有0"><a href="#sismembervalue-判断集合是否为含有该值，有1，没有0" class="headerlink" title="sismembervalue:判断集合是否为含有该值，有1，没有0"></a><code>sismember</code><key><a href="value:">value:</a>判断集合<key>是否为含有该<value>值，有1，没有0</h4><h4 id="scard返回该集合的元素个数。"><a href="#scard返回该集合的元素个数。" class="headerlink" title="scard返回该集合的元素个数。"></a><code>scard</code><key>返回该集合的元素个数。</h4><h4 id="srem-删除集合中的某个元素。"><a href="#srem-删除集合中的某个元素。" class="headerlink" title="srem.删除集合中的某个元素。"></a><code>srem</code><key><value1><value2>.删除集合中的某个元素。</h4><h4 id="spop随机从该集合中吐出一个值。"><a href="#spop随机从该集合中吐出一个值。" class="headerlink" title="spop随机从该集合中吐出一个值。"></a><code>spop</code><key>随机从该集合中吐出一个值。</h4><h4 id="srandmember随机从该集合中取出n个值。不会从集合中删除。"><a href="#srandmember随机从该集合中取出n个值。不会从集合中删除。" class="headerlink" title="srandmember随机从该集合中取出n个值。不会从集合中删除。"></a><code>srandmember</code><key><n>随机从该集合中取出n个值。不会从集合中删除。</h4><h4 id="smovevalue把集合中一个值从一个集合移动到另一个集合"><a href="#smovevalue把集合中一个值从一个集合移动到另一个集合" class="headerlink" title="smovevalue把集合中一个值从一个集合移动到另一个集合"></a><code>smove</code><source><destination>value把集合中一个值从一个集合移动到另一个集合</h4><h4 id="sinter返回两个集合的交集元素。"><a href="#sinter返回两个集合的交集元素。" class="headerlink" title="sinter返回两个集合的交集元素。"></a><code>sinter</code><key1><key2>返回两个集合的交集元素。</h4><h4 id="sunion返回两个集合的并集元素。"><a href="#sunion返回两个集合的并集元素。" class="headerlink" title="sunion返回两个集合的并集元素。"></a><code>sunion</code><key1><key2>返回两个集合的并集元素。</h4><h4 id="sdiff返回两个集合的差集元素key1中的，不包含key2中的"><a href="#sdiff返回两个集合的差集元素key1中的，不包含key2中的" class="headerlink" title="sdiff返回两个集合的差集元素key1中的，不包含key2中的)"></a><code>sdiff</code><key1><key2>返回两个集合的差集元素key1中的，不包含key2中的)</h4><h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><p>Set数据结构是dict字典，字典是用哈希表实现的。Java中<code>HashSet</code>的内部实现使用的是<code>HashMap</code>,只不过所有的value都指向同一个对象。<br>Redis的set结构也是一样，它的内部也使用hash结构，所有的value都指向同一个内部值。</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+                <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 明天吃烧烤的烧烤摊
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Song
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+            </div>
+            
+            <transition name="fade">
+                <div id="preview" ref="preview" v-show="previewShow">
+                    <img id="preview-content" ref="previewContent" />
+                </div>
+            </transition>
+            
+        </div>
+        <script src="/js/main.js"></script>
+        
+        
+
+
+
+
+        
+    </body>
+</html>
