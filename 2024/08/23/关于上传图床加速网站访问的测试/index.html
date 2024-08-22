@@ -3,7 +3,7 @@
 <html lang="zh-CN">
     <head>
         <meta charset="utf-8" />
-        <title>Redis集群 | 明天吃烧烤的个人博客</title>
+        <title> | 明天吃烧烤的个人博客</title>
         <meta name="author" content="Song" />
         <meta name="description" content="" />
         <meta name="keywords" content="个人博客" />
@@ -147,50 +147,22 @@
             <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
                 <div class="article">
     <div>
-        <h1>Redis集群</h1>
+        <h1></h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2023/8/14
-        </span>
-        
-        <span class="category">
-            <a href="/categories/Redis/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                Redis
-            </a>
+            2024/8/23
         </span>
         
         
     </div>
     
     <div class="content" v-pre>
-        <h1 id="Redis集群"><a href="#Redis集群" class="headerlink" title="Redis集群"></a>Redis集群</h1><p>容量不够，redis如何进行扩容？<br>并发写操作，redis如何分摊？<br>另外，主从模式，薪火相传模式，主机宕机，导致地址发生变化，应用程序中配置<br>需要修改对应的主机地址、端口等信息。<br>之前通过代理主机来解决，但是redis3.0中提供了解决方案。就是无中心化集群配置</p>
-<h2 id="代理主机"><a href="#代理主机" class="headerlink" title="代理主机"></a>代理主机</h2><p><img src="/2023/08/14/Redis%E9%9B%86%E7%BE%A4/img/image-20220801184343586.png" alt="&#39;image-20220801184343586&#39;"></p>
-<h2 id="无中心化集群"><a href="#无中心化集群" class="headerlink" title="无中心化集群"></a>无中心化集群</h2><p><img src="/2023/08/14/Redis%E9%9B%86%E7%BE%A4/img/image-20220801184429704.png" alt="&#39;image-20220801184429704&#39;"></p>
-<h3 id="配置基本信息"><a href="#配置基本信息" class="headerlink" title="配置基本信息"></a>配置基本信息</h3><p>开启<code>daemonize yes</code><br><code>Pid</code>文件名字<br>指定端口<br><code>Log</code>文件名字</p>
-<p><code>Dump.rdb</code>名字<br><code>Appendonly</code>关掉或者换名字</p>
-<p><img src="/2023/08/14/Redis%E9%9B%86%E7%BE%A4/img/image-20220801185136820.png" alt="&#39;image-20220801185136820&#39;"></p>
-<p><img src="/2023/08/14/Redis%E9%9B%86%E7%BE%A4/img/image-20220801185315562.png" alt="&#39;image-20220801185315562&#39;"></p>
-<p>快速修改文件6379改为6390</p>
-<p><img src="/2023/08/14/Redis%E9%9B%86%E7%BE%A4/img/image-20220801185540393.png" alt="&#39;image-20220801185540393&#39;"></p>
-<p>去安装目录的src下</p>
-<p><img src="/2023/08/14/Redis%E9%9B%86%E7%BE%A4/img/image-20220801190741659.png" alt="&#39;image-20220801190741659&#39;"></p>
-<p><img src="/2023/08/14/Redis%E9%9B%86%E7%BE%A4/img/image-20220801191556556.png" alt="&#39;image-20220801191556556&#39;"></p>
-<p><img src="/2023/08/14/Redis%E9%9B%86%E7%BE%A4/img/image-20220801191722237.png" alt="&#39;image-20220801191722237&#39;"></p>
-<p><img src="/2023/08/14/Redis%E9%9B%86%E7%BE%A4/img/image-20220801192039212.png" alt="&#39;image-20220801192039212&#39;"></p>
-<p><img src="/2023/08/14/Redis%E9%9B%86%E7%BE%A4/img/image-20220801192426551.png" alt="&#39;image-20220801192426551&#39;"></p>
-<p><img src="/2023/08/14/Redis%E9%9B%86%E7%BE%A4/img/image-20220801192752368.png" alt="&#39;image-20220801192752368&#39;"></p>
-<p><img src="/2023/08/14/Redis%E9%9B%86%E7%BE%A4/img/image-20220801193416556.png" alt="&#39;image-20220801193416556&#39;"></p>
-<p><img src="/2023/08/14/Redis%E9%9B%86%E7%BE%A4/img/image-20220801200129778.png" alt="&#39;image-20220801200129778&#39;"></p>
-<p><img src="/2023/08/14/Redis%E9%9B%86%E7%BE%A4/img/image-20220801200253335.png" alt="&#39;image-20220801200253335&#39;"></p>
-<p><img src="/2023/08/14/Redis%E9%9B%86%E7%BE%A4/img/image-20220801200708488.png" alt="&#39;image-20220801200708488&#39;"></p>
-<p><img src="/2023/08/14/Redis%E9%9B%86%E7%BE%A4/img/image-20220801200804238.png" alt="&#39;image-20220801200804238&#39;"></p>
+        <p>categories: 加速<br>title: 关于上传图床加速网站访问的测试<br>date: 2024&#x2F;8&#x2F;23 2:04:54<br>description: |网站访问</p>
+<h2 id="关于上传图床加速网站访问的测试"><a href="#关于上传图床加速网站访问的测试" class="headerlink" title="关于上传图床加速网站访问的测试"></a>关于上传图床加速网站访问的测试</h2><h4 id="之前图片全是存在网站的由于是在GitHub上的代理，访问速度比较慢，虽然绑定了域名但是还是慢，所以想到了把图片全上传到图床上这样流量就不会全走GitHub，就起到一定的加速作用"><a href="#之前图片全是存在网站的由于是在GitHub上的代理，访问速度比较慢，虽然绑定了域名但是还是慢，所以想到了把图片全上传到图床上这样流量就不会全走GitHub，就起到一定的加速作用" class="headerlink" title="之前图片全是存在网站的由于是在GitHub上的代理，访问速度比较慢，虽然绑定了域名但是还是慢，所以想到了把图片全上传到图床上这样流量就不会全走GitHub，就起到一定的加速作用"></a>之前图片全是存在网站的由于是在GitHub上的代理，访问速度比较慢，虽然绑定了域名但是还是慢，所以想到了把图片全上传到图床上这样流量就不会全走GitHub，就起到一定的加速作用</h4><p><img src="https://s2.loli.net/2024/08/23/zl7RNeufOBS5iok.png" alt="image-20240823015951228"></p>
 
     </div>
     
